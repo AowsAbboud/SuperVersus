@@ -21,6 +21,7 @@ class _CompareEditScreenState3 extends State<CompareEditScreen3> {
   bool _editName = false; // Toggle Item Name Editing
   bool _addAttrib = false; // Toggle Attrib Editing
   Compare _parentCompare; // The Compare we belong to
+  bool canGoNext = false; // no empty data
 //------------------------------------------------
   TextEditingController _nameController;
   TextEditingController _attribNameController;
@@ -72,6 +73,8 @@ class _CompareEditScreenState3 extends State<CompareEditScreen3> {
     _parentCompare = ModalRoute.of(context).settings.arguments;
     if (_parentCompare.items.length > 1 && _parentCompare.items[1] != null)
       _item = _parentCompare.items[1];
+    if(_item.imageUrl != null || _item.image != null)
+      canGoNext = true;
     _nameController = TextEditingController(text: _item.name);
     //===========================================================
     return Scaffold(
@@ -149,9 +152,9 @@ class _CompareEditScreenState3 extends State<CompareEditScreen3> {
                       borderRadius: BorderRadius.circular(40),
                       child: RaisedButton(
                         color: Theme.of(context).primaryColor,
-                        onPressed: () {
+                        onPressed:canGoNext ? () {
                           saveAndNext(context);
-                        },
+                        } : null,
                         elevation: 4.0,
                         splashColor: Colors.blueGrey,
                         child: Text(

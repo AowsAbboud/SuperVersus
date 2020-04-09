@@ -18,6 +18,7 @@ class _CompareEditScreenState2 extends State<CompareEditScreen2> {
   File _image; // Selected image file from Picker
   bool _editName = false; // item name toggle editing mode
   bool _addAttrib = false; // attrib editing mode
+  bool canGoNext = false; // no empty data
   //--------------------------------------
   Compare _parentCompare; // The Compare we belong to
   //----------------------------------------
@@ -49,6 +50,7 @@ class _CompareEditScreenState2 extends State<CompareEditScreen2> {
 //mmmmmmmmm Save First item and go to next one mmmmmmmmmmmmmmmmmm
   void saveAndNext (BuildContext ctx)
   {   
+    
     _parentCompare.addItem(_item);
     Navigator.of(context).pushNamed(CompareEditScreen3.routeName , arguments: _parentCompare);
   }
@@ -63,6 +65,8 @@ class _CompareEditScreenState2 extends State<CompareEditScreen2> {
     _parentCompare = ModalRoute.of(context).settings.arguments;
     if (_parentCompare.items.length > 0 && _parentCompare.items[0] != null)
       _item = _parentCompare.items[0];
+    if(_item.imageUrl != null || _item.image != null)
+       canGoNext = true;
     _nameController = TextEditingController(text: _item.name);
     //==========================================================
   
@@ -142,9 +146,9 @@ class _CompareEditScreenState2 extends State<CompareEditScreen2> {
                       borderRadius: BorderRadius.circular(40),
                       child: RaisedButton(
                         color: Theme.of(context).primaryColor,
-                        onPressed: () {
+                        onPressed: canGoNext ? () {
                           saveAndNext(context);
-                        },
+                        } : null,
                         elevation: 4.0,
                         splashColor: Colors.blueGrey,
                         child: Text(
