@@ -113,7 +113,7 @@ class _CompareEditScreenState2 extends State<CompareEditScreen2> {
                                         )
                                       : _item.imageUrl == null
                                           ? Image.asset(
-                                              'assets/images/item.jpg',
+                                              'assets/images/item.png',
                                               fit: BoxFit.cover,
                                             )
                                           : Image.network(_item.imageUrl , fit: BoxFit.cover,)),

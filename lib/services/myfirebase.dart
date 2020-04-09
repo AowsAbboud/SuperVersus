@@ -90,6 +90,14 @@ class MyFireBase {
 
 //mmmmmmmmmmmmmmmmm Delete User Compare From Firebase mmmmmmmmmmmmmmm
   static Future<void> deleteCompare(Compare compare) async {
+    for(int i=0; i < compare.items.length; i++)
+    {
+      try{
+       await FirebaseStorage.instance.ref().child(compare.items[i].id).delete();
+      }
+      catch(error){}
+
+    }
      return FirebaseDatabase.instance.reference().child('compares').child(compare.id).remove();
   }
 //mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
