@@ -26,12 +26,8 @@ class _CompareEditScreenState2 extends State<CompareEditScreen2> {
   TextEditingController _attribNameController   =  TextEditingController();
   TextEditingController  _attribValueController = TextEditingController();
   TextEditingController  _attribWieghtController = TextEditingController();
-
-
-  //---- init this item (First Item in compare) -----------------------
-  //------will be overwritin by loaded args if the compare is not new  ---------
-  Item _item =
-      Item(id: DateTime.now().millisecondsSinceEpoch.toString(), name: 'Item Name', imageUrl: null);
+  Item _item;
+      
   /*--------------------------------------*/
 
 //mmmmmmmm Show Image Picker mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
@@ -64,10 +60,13 @@ class _CompareEditScreenState2 extends State<CompareEditScreen2> {
     //========= try load from args ==============================
     _parentCompare = ModalRoute.of(context).settings.arguments;
     if (_parentCompare.items.length > 0 && _parentCompare.items[0] != null)
+    {
       _item = _parentCompare.items[0];
     if(_item.imageUrl != null || _item.image != null)
-       canGoNext = true;
+       canGoNext = true; 
+     _image = _item.image;
     _nameController = TextEditingController(text: _item.name);
+    }
     //==========================================================
   
     return Scaffold(
@@ -105,7 +104,7 @@ class _CompareEditScreenState2 extends State<CompareEditScreen2> {
                           alignment: Alignment.center,
                           child: CircleAvatar(
                             radius: 53,
-                            backgroundColor: Theme.of(context).primaryColor,
+                            backgroundColor: Colors.grey.shade300,
                             child: ClipOval(
                               child: new SizedBox(
                                   width: 100.0,
@@ -113,7 +112,7 @@ class _CompareEditScreenState2 extends State<CompareEditScreen2> {
                                   child: (_image != null)
                                       ? Image.file(
                                           _image,
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.cover,
                                         )
                                       : _item.imageUrl == null
                                           ? Image.asset(

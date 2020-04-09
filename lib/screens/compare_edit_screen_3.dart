@@ -22,6 +22,7 @@ class _CompareEditScreenState3 extends State<CompareEditScreen3> {
   bool _addAttrib = false; // Toggle Attrib Editing
   Compare _parentCompare; // The Compare we belong to
   bool canGoNext = false; // no empty data
+  bool saving = false; 
 //------------------------------------------------
   TextEditingController _nameController;
   TextEditingController _attribNameController;
@@ -29,13 +30,7 @@ class _CompareEditScreenState3 extends State<CompareEditScreen3> {
   TextEditingController _attribValueController;
 //------------------------------------------------
 
-
-//---- init this item (First Item in compare) -----------------------
-  //------will be overwritin by loaded args if the compare is not new  ---------
-  Item _item = Item(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      name: 'Item Name',
-      imageUrl: null);
+  Item _item;
       //init The item 
 //------------------------------------------------
 
@@ -55,11 +50,17 @@ class _CompareEditScreenState3 extends State<CompareEditScreen3> {
 
 //mmmmmmmmm Save Second Item and finish mmmmmmmmmmmmmmmmmmmmmmmm
   Future saveAndNext(BuildContext ctx) async {
+    setState(() {
+      saving = true;
+    });
     _parentCompare.addItem(_item);
     MyFireBase.saveCompare(_parentCompare).then((_) {
       return Provider.of<MyCompares>(context, listen: false).loadMyCompares();
     }).then((_) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      setState(() {
+      saving = false;
+      });
+      Navigator.of(context).pushReplacementNamed('/');
     });
   }
 //mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
@@ -72,10 +73,13 @@ class _CompareEditScreenState3 extends State<CompareEditScreen3> {
     //========= try load from args ==============================
     _parentCompare = ModalRoute.of(context).settings.arguments;
     if (_parentCompare.items.length > 1 && _parentCompare.items[1] != null)
+    {
       _item = _parentCompare.items[1];
     if(_item.imageUrl != null || _item.image != null)
-      canGoNext = true;
+      canGoNext = true;  
+      _image = _item.image;
     _nameController = TextEditingController(text: _item.name);
+     }
     //===========================================================
     return Scaffold(
       // =========== App bar ================================
@@ -88,7 +92,10 @@ class _CompareEditScreenState3 extends State<CompareEditScreen3> {
         title: Text('Second Item'),
       ),
       // =========== Body ================================
-      body: Builder(
+      body: saving ? Center(
+              child: CircularProgressIndicator(),
+            ) :
+      Builder(
         builder: (context) => Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -110,7 +117,7 @@ class _CompareEditScreenState3 extends State<CompareEditScreen3> {
                           alignment: Alignment.center,
                           child: CircleAvatar(
                             radius: 53,
-                            backgroundColor: Theme.of(context).primaryColor,
+                            backgroundColor: Colors.grey.shade300,
                             child: ClipOval(
                               child: new SizedBox(
                                   width: 100.0,
@@ -118,7 +125,7 @@ class _CompareEditScreenState3 extends State<CompareEditScreen3> {
                                   child: (_image != null)
                                       ? Image.file(
                                           _image,
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.cover,
                                         )
                                       : _item.imageUrl == null
                                           ? Image.asset(

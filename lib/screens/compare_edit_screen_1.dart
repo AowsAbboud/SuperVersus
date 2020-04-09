@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:combos/combos.dart';
+import '../models/Item.dart';
 import '../models/categories.dart';
 import '../providers/Compare.dart';
 import '../providers/auth.dart';
@@ -30,6 +31,8 @@ class _CompareEditScreenState1 extends State<CompareEditScreen1> {
             id: DateTime.now().millisecondsSinceEpoch.toString(),
             categoryId: null,
             userId: userid);
+        _editedCompare.addItem(Item(id: DateTime.now().millisecondsSinceEpoch.toString(), name: 'Item1 Name', imageUrl: null));
+        _editedCompare.addItem(Item(id: (DateTime.now().millisecondsSinceEpoch + 10).toString() , name: 'Item2 Name', imageUrl: null));
       });
     }
     _isInit = false;
@@ -49,6 +52,7 @@ class _CompareEditScreenState1 extends State<CompareEditScreen1> {
       var cat = Categories.findById(_editedCompare.categoryId);
       _cate = cat == null ? null : cat.name;
     }
+    
     //===========================================================
 
     return Scaffold(
