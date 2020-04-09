@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "483556998970",
+    "firebase_url": "https://super-versus.firebaseio.com",
+    "project_id": "super-versus",
+    "storage_bucket": "super-versus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483556998970:android:16f780e74a6c1fe34ada03",
+        "android_client_info": {
+          "package_name": "com.msmama.super_versus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "483556998970-tt7tov0gbhad8va0vnrn58va88ff51av.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCD9k3CxMIF5c7D0dxqct9WTkSh9I-i3bc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "483556998970-tt7tov0gbhad8va0vnrn58va88ff51av.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
